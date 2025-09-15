@@ -1,0 +1,466 @@
+# **📚 Scalars, Vectors, Matrices (With ML Context)**
+
+---
+
+## **1 Scalars**
+
+A **scalar** is just a single number.
+
+Examples:
+
+* `5`, `-3.2`, `0`, `π`
+
+In **ML context:**
+
+* **Learning rate (α)** is a scalar
+* **Bias (b)** term in linear regression is a scalar
+* **Loss value** is usually a scalar
+
+---
+
+## **2 Vectors**
+
+A **vector** is a list of numbers (1-D array).
+Can be **row vector** or **column vector**.
+
+Example (row vector):
+
+$$
+\mathbf{v} = [2, 5, 7]
+$$
+
+Example (column vector):
+
+$$
+\mathbf{v} =
+\begin{bmatrix}
+2\\
+5\\
+7
+\end{bmatrix}
+$$
+
+In **ML context:**
+
+* Feature vector of a single data point:
+  Example: For a house dataset,
+
+  $$
+  \mathbf{x} = [\text{Area}, \text{No. Bedrooms}, \text{Age}] = [1200, 3, 10]
+  $$
+
+---
+
+## **3 Matrices**
+
+A **matrix** is a rectangular grid of numbers.
+Think of it as multiple vectors stacked together.
+
+Example:
+
+$$
+A =
+\begin{bmatrix}
+1 & 2 & 3\\
+4 & 5 & 6\\
+7 & 8 & 9
+\end{bmatrix}
+$$
+
+* **Shape:** `3 × 3` (3 rows, 3 columns)
+* Notation: $A_{ij}$ means "element in i-th row, j-th column".
+
+In **ML context:**
+
+* Dataset with **m rows (samples)** and **n columns (features)** → `m × n` matrix
+  Example:
+
+| Area | Bedrooms | Age |
+| ---- | -------- | --- |
+| 1200 | 3        | 10  |
+| 1500 | 4        | 5   |
+| 1000 | 2        | 20  |
+
+This table is a `3×3` matrix.
+
+---
+
+# **➕ Addition & Subtraction**
+
+### **Vectors**
+
+You can add/subtract two vectors **if they have same dimension**.
+
+Example:
+
+$$
+\mathbf{a} = [2, 4, 6], \quad \mathbf{b} = [1, 3, 5]
+$$
+
+$$
+\mathbf{a} + \mathbf{b} = [3, 7, 11]
+$$
+
+---
+
+### **Matrices**
+
+Add element-wise (shapes must match).
+
+Example:
+
+$$
+A =
+\begin{bmatrix}
+1 & 2\\
+3 & 4
+\end{bmatrix}
+,\quad
+B =
+\begin{bmatrix}
+5 & 6\\
+7 & 8
+\end{bmatrix}
+$$
+
+$$
+A + B =
+\begin{bmatrix}
+1+5 & 2+6\\
+3+7 & 4+8
+\end{bmatrix}
+=
+\begin{bmatrix}
+6 & 8\\
+10 & 12
+\end{bmatrix}
+$$
+
+If dimensions don’t match → cannot add directly.
+**Padding** is sometimes used in ML (e.g., convolutional neural networks) to make shapes match.
+
+---
+
+# **✖️ Multiplication**
+
+### **1) Scalar × Vector**
+
+Multiply each element by the scalar:
+
+$$
+3 \times [2, 4, 6] = [6, 12, 18]
+$$
+
+---
+
+### **2) Scalar × Matrix**
+
+Multiply each element:
+
+$$
+2 \times
+\begin{bmatrix}
+1 & 2\\
+3 & 4
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 & 4\\
+6 & 8
+\end{bmatrix}
+$$
+
+---
+
+### **3) Vector × Vector (Dot Product)**
+
+$$
+\mathbf{a} = [1, 2, 3], \quad
+\mathbf{b} = [4, 5, 6]
+$$
+
+**Dot product:**
+
+$$
+\mathbf{a} \cdot \mathbf{b} = 1×4 + 2×5 + 3×6 = 32
+$$
+
+This gives **a scalar result**.
+
+**ML Context:**
+
+* Used to calculate weighted sum in linear regression / neural networks:
+
+  $$
+  y = \mathbf{w} \cdot \mathbf{x} + b
+  $$
+
+---
+
+### **4) Matrix × Vector**
+
+Example:
+
+$$
+A =
+\begin{bmatrix}
+1 & 2 & 3\\
+4 & 5 & 6
+\end{bmatrix}
+,\quad
+\mathbf{v} =
+\begin{bmatrix}
+1\\
+2\\
+3
+\end{bmatrix}
+$$
+
+Result:
+
+$$
+A \mathbf{v} =
+\begin{bmatrix}
+1×1 + 2×2 + 3×3\\
+4×1 + 5×2 + 6×3
+\end{bmatrix}
+=
+\begin{bmatrix}
+14\\
+32
+\end{bmatrix}
+$$
+
+* **Shape rule:** `(m × n) × (n × 1) = (m × 1)`
+* This is the backbone of **linear regression predictions** and **forward pass in neural nets**.
+
+---
+
+### **5) Matrix × Matrix**
+
+**Rule:**
+
+$$
+(A_{m×n})(B_{n×p}) = C_{m×p}
+$$
+
+Example:
+
+$$
+A =
+\begin{bmatrix}
+1 & 2\\
+3 & 4
+\end{bmatrix}
+,\quad
+B =
+\begin{bmatrix}
+5 & 6\\
+7 & 8
+\end{bmatrix}
+$$
+
+$$
+AB =
+\begin{bmatrix}
+1×5+2×7 & 1×6+2×8\\
+3×5+4×7 & 3×6+4×8
+\end{bmatrix}
+=
+\begin{bmatrix}
+19 & 22\\
+43 & 50
+\end{bmatrix}
+$$
+
+---
+
+# **🔄 Transpose**
+
+Transpose $A^T$ flips rows & columns:
+
+$$
+A =
+\begin{bmatrix}
+1 & 2 & 3\\
+4 & 5 & 6
+\end{bmatrix}
+,\quad
+A^T =
+\begin{bmatrix}
+1 & 4\\
+2 & 5\\
+3 & 6
+\end{bmatrix}
+$$
+
+**ML Context:**
+Transpose is often used to align shapes before multiplication (e.g., weight matrices in neural networks).
+
+---
+
+# **💡 ML Examples with These Operations**
+
+### **1. Linear Regression Prediction**
+
+Given:
+
+$$
+\mathbf{x} = [1200, 3, 10], \quad
+\mathbf{w} = [50, 1000, -20], \quad b = 5000
+$$
+
+Prediction:
+
+$$
+y = \mathbf{w} \cdot \mathbf{x} + b = (50×1200) + (1000×3) + (-20×10) + 5000 = 64000
+$$
+
+---
+
+### **2. Mini-Batch Gradient Descent**
+
+Matrix multiplication is used to predict multiple samples at once.
+
+$$
+X =
+\begin{bmatrix}
+1200 & 3 & 10\\
+1500 & 4 & 5\\
+1000 & 2 & 20
+\end{bmatrix}
+,\quad
+\mathbf{w} =
+\begin{bmatrix}
+50\\
+1000\\
+-20
+\end{bmatrix}
+$$
+
+Predictions:
+
+$$
+\hat{y} = X \mathbf{w}
+$$
+
+This gives a vector of predictions for **all 3 rows at once**.
+
+---
+
+### **3. Neural Networks**
+
+Forward pass in a fully connected layer:
+
+$$
+\mathbf{z} = W \mathbf{x} + \mathbf{b}
+$$
+
+Where:
+
+* $W$ = weight matrix
+* $\mathbf{x}$ = input vector
+* $\mathbf{b}$ = bias vector
+
+Then apply **activation function** element-wise:
+
+$$
+\mathbf{a} = \sigma(\mathbf{z})
+$$
+
+---
+
+# ML Math Cheat Sheet (Scalars, Vectors, Matrices, Tensors)
+
+## 1. Hierarchy: Scalar → Vector → Matrix → Tensor
+
+Scalar (single number):
+  a = 5
+
+Vector (1-D):
+  v = [v₁, v₂, v₃]          # shape: (n, )
+
+Matrix (2-D):
+  A = [[a₁₁ a₁₂ a₁₃]        # shape: (m × n)
+       [a₂₁ a₂₂ a₂₃]]
+
+Tensor (3-D or higher):
+  Think of it as "matrix of matrices"
+  Example: A stack of RGB images → shape: (batch, height, width, channels)
+
+
+## 2. Addition & Subtraction
+
+Same shape required:
+  [1 2 3] + [4 5 6] = [5 7 9]
+
+Different shape:
+  Can't add [1 2 3] + [4 5], unless padded/broadcasted
+
+
+## 3. Scalar Multiplication
+
+2 × [1 2 3] = [2 4 6]
+2 × [[1 2]   = [[2 4]
+      [3 4]]     [6 8]]
+
+
+## 4. Transpose
+
+A = [[1 2 3]         Aᵀ = [[1 4]
+     [4 5 6]]               [2 5]
+                             [3 6]]
+
+
+## 5. Dot Product (Vector × Vector)
+
+a = [1 2 3]
+b = [4 5 6]
+
+a · b = (1×4) + (2×5) + (3×6) = 32  # result = scalar
+
+
+## 6. Matrix × Vector
+
+A = [[1 2 3]
+     [4 5 6]]   (shape 2×3)
+
+v = [1 2 3]ᵀ    (shape 3×1)
+
+A·v = [[14]
+       [32]]    (shape 2×1)
+
+
+## 7. Matrix × Matrix
+
+Rule: (m × n)(n × p) = (m × p)
+
+Example:
+
+A = [[1 2]      (shape 2×2)
+     [3 4]]
+
+B = [[5 6]      (shape 2×2)
+     [7 8]]
+
+AB = [[19 22]
+      [43 50]]  (shape 2×2)
+
+
+## 8. Shape Compatibility Table
+
+| A shape   | B shape   | Result shape | Allowed? |
+|----------|-----------|-------------|----------|
+| (m × n)  | (n × 1)   | (m × 1)     | ✅       |
+| (m × n)  | (n × p)   | (m × p)     | ✅       |
+| (m × n)  | (k × p)   | ❌          | ❌ n≠k  |
+
+Tip: Inner dimensions **must match**!
+
+
+## 9. ML Context
+
+- **Linear Regression:**  ŷ = X·w + b
+- **Neural Network Layer:** z = W·x + b → a = σ(z)
+- **PCA (Dimensionality Reduction):** X_projected = X·Wᵀ
+- **Batch Predictions:** Multiply all feature rows by weight matrix at once
