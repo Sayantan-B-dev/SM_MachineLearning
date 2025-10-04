@@ -1,0 +1,298 @@
+# Bias
+
+---
+
+## **1. Core Idea**
+
+Bias measures the **average error between model predictions and true values**.
+It reflects how much the model **assumptions simplify the real-world data**.
+
+[
+\text{Bias} = \text{Expected}[\hat{f}(x)] - f(x)
+]
+
+Where:
+
+* ( \hat{f}(x) ) = model prediction
+* ( f(x) ) = true underlying function
+
+---
+
+## **2. Interpretation**
+
+| Bias Level    | Training Error | Model Behavior                              |
+| ------------- | -------------- | ------------------------------------------- |
+| **High Bias** | High           | Model is too simple → **underfitting**      |
+| **Low Bias**  | Low            | Model captures patterns well → **good fit** |
+
+* **High bias → underfit** → fails on **training and test data**
+* **Low bias → better prediction** → captures training patterns
+
+---
+
+## **3. Visual Intuition**
+
+```
+High Bias (Underfitting)
+True function:      *****
+Model prediction:   -----
+Error: large difference
+
+Low Bias (Good Fit)
+True function:      *****
+Model prediction:   ***** 
+Error: small difference
+```
+
+---
+
+## **4. Key Notes**
+
+* Bias reflects **model assumptions** (simplicity vs complexity)
+* High bias → model too rigid, ignores data patterns
+* Bias is **one side of the bias-variance tradeoff**
+
+---
+
+## **5. Memory Hook**
+
+* **“High bias = too simple → misses patterns”**
+* **“Low bias = captures true patterns → good accuracy”**
+
+---
+
+# Variance
+
+---
+
+## **1. Core Idea**
+
+Variance measures how much the model's predictions **change across different training datasets**.
+It reflects the model’s **sensitivity to small fluctuations or noise** in the data.
+
+[
+\text{Variance} = \mathbb{E}[(\hat{f}(x) - \mathbb{E}[\hat{f}(x)])^2]
+]
+
+Where:
+
+* ( \hat{f}(x) ) = model prediction
+* ( \mathbb{E}[\hat{f}(x)] ) = expected prediction across datasets
+
+---
+
+## **2. Interpretation**
+
+| Variance Level    | Test Error | Model Behavior                                            |
+| ----------------- | ---------- | --------------------------------------------------------- |
+| **High Variance** | High       | Model overfits → sensitive to noise → poor generalization |
+| **Low Variance**  | Low        | Model predictions stable → generalizes well               |
+
+* **High variance → overfit** → good on training data but poor on unseen data
+* **Low variance → model stable** → consistent predictions
+
+---
+
+## **3. Visual Intuition**
+
+```
+High Variance (Overfitting)
+Training data:      *
+Model prediction:  *   *   *   *  (changes a lot with each dataset)
+Error on test:      large
+
+Low Variance (Good Generalization)
+Training data:      *
+Model prediction:    *
+Error on test:      small
+```
+
+---
+
+## **4. Key Notes**
+
+* Variance reflects **model flexibility**
+* High variance → model memorizes noise, sensitive to training data
+* Variance is **other side of the bias-variance tradeoff**
+
+---
+
+## **5. Memory Hook**
+
+* **“High variance = too flexible → memorizes noise”**
+* **“Low variance = stable predictions → generalizes well”**
+
+---
+
+# Signs of High Bias vs High Variance in Machine Learning Models
+
+---
+
+## **1. High Bias (Underfitting)**
+
+**Characteristics / Signs:**
+
+| Sign                                     | Explanation                                             |
+| ---------------------------------------- | ------------------------------------------------------- |
+| High training error                      | Model fails to fit even the training data               |
+| High test error                          | Poor generalization; underfit both train & test         |
+| Oversimplified model                     | Decision boundaries too simple; cannot capture patterns |
+| Low model complexity                     | Few features, low-degree polynomials, shallow trees     |
+| Predictions insensitive to training data | Adding more data does not help much                     |
+
+**Visual Intuition:**
+
+```
+True function:      *****
+Model prediction:   -----
+Error: high
+```
+
+---
+
+## **2. High Variance (Overfitting)**
+
+**Characteristics / Signs:**
+
+| Sign                               | Explanation                                                   |
+| ---------------------------------- | ------------------------------------------------------------- |
+| Low training error                 | Model fits training data very well                            |
+| High test error                    | Fails to generalize to unseen data                            |
+| Complex decision boundaries        | Captures noise as if it were signal                           |
+| Sensitive to small changes in data | Slight changes in training data → large change in predictions |
+| High model complexity              | Many features, high-degree polynomials, deep trees            |
+
+**Visual Intuition:**
+
+```
+True function:      *****
+Model prediction:  * * * * * (wiggles a lot)
+Error on test:      high
+```
+
+---
+
+## **3. Quick Comparison Table**
+
+| Feature             | High Bias      | High Variance  |
+| ------------------- | -------------- | -------------- |
+| Training Error      | High           | Low            |
+| Test Error          | High           | High           |
+| Model Complexity    | Too simple     | Too complex    |
+| Sensitivity to Data | Low            | High           |
+| Decision Boundary   | Oversimplified | Overfits/noisy |
+
+---
+
+## **4. Memory Hook**
+
+* **High Bias → “Underfit → misses patterns”**
+* **High Variance → “Overfit → memorizes noise”**
+
+---
+
+# Finding the Right Balance: Avoiding High Bias and High Variance
+
+---
+
+Balancing **bias** and **variance** is crucial to build models that **generalize well**. This is the essence of the **bias-variance tradeoff**.
+
+---
+
+## **1. Assess Model Complexity**
+
+* **Simple models** → high bias, low variance (underfit)
+* **Complex models** → low bias, high variance (overfit)
+
+**Action:** Choose model complexity that captures patterns **without memorizing noise**.
+Example: Linear regression vs high-degree polynomial regression.
+
+---
+
+## **2. Dataset Size**
+
+* Small datasets → more prone to **high variance**
+* Large datasets → variance reduces, model can safely learn complex patterns
+
+**Action:** Increase dataset size when possible; use **data augmentation** if needed.
+
+---
+
+## **3. Regularization**
+
+* **L1 (Lasso)** → removes irrelevant features, reduces variance
+* **L2 (Ridge)** → shrinks weights, smooths decision boundaries
+* **Elastic Net** → balances both
+
+**Action:** Apply appropriate regularization to **penalize over-complexity** and improve generalization.
+
+---
+
+## **4. Cross-Validation**
+
+* Helps **reliably estimate model performance** across multiple splits
+* Detects **overfitting** early
+* Techniques: k-fold CV, stratified CV
+
+**Action:** Use cross-validation to **tune hyperparameters** and choose models with **balanced bias and variance**.
+
+---
+
+## **5. Feature Selection (Cherry Picking)**
+
+* Remove irrelevant or noisy features → reduces variance
+* Keep important predictive features → avoids high bias
+
+**Action:** Use feature importance, correlation analysis, or domain knowledge to select features.
+
+---
+
+## **6. Visual Summary: Bias-Variance Tradeoff**
+
+```
+Error
+|
+|          *
+|         * \
+|        *   \
+|       *     \ High variance (overfit)
+|      *       \
+|     *         \ 
+|    *           \
+|   *             \
+|  *               \
+| *------------------- Low Bias
+|*----------------- Model Complexity
+|
+```
+
+* **Left side:** Model too simple → high bias, low variance
+* **Right side:** Model too complex → low bias, high variance
+* **Sweet spot:** Middle → balanced bias and variance → minimum total error
+
+---
+
+**Memory Hook:**
+
+> “Not too simple, not too complex — just right.”
+
+# Balancing Bias and Variance: Tabular Summary
+
+| Strategy                                 | Purpose                             | Effect on Bias                                     | Effect on Variance                    | Notes / Practical Tips                          |
+| ---------------------------------------- | ----------------------------------- | -------------------------------------------------- | ------------------------------------- | ----------------------------------------------- |
+| **Assess Model Complexity**              | Choose appropriate model            | Too simple → high bias                             | Too complex → high variance           | Example: linear vs polynomial regression        |
+| **Dataset Size**                         | Reduce sensitivity to noise         | More data → reduces bias slightly                  | More data → reduces variance          | Data augmentation can help small datasets       |
+| **Regularization (L1, L2, Elastic Net)** | Penalize large weights / complexity | Slight increase in bias                            | Reduces variance                      | Tune λ (regularization strength) via validation |
+| **Cross-Validation**                     | Estimate performance reliably       | Helps detect underfitting                          | Helps detect overfitting              | k-fold or stratified CV                         |
+| **Feature Selection**                    | Remove irrelevant/noisy features    | Risk of losing important features → increases bias | Reduces variance by eliminating noise | Use domain knowledge or feature importance      |
+
+---
+
+**Memory Hook Table:**
+
+| Error Type        | Training Error | Test Error | Model Complexity | Example                                    |
+| ----------------- | -------------- | ---------- | ---------------- | ------------------------------------------ |
+| **High Bias**     | High           | High       | Too simple       | Underfit linear model                      |
+| **High Variance** | Low            | High       | Too complex      | Overfit deep tree / high-degree polynomial |
+| **Balanced**      | Moderate       | Moderate   | Just right       | Sweet spot → generalizes well              |
+
