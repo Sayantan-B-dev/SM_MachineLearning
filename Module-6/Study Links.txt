@@ -1,0 +1,4 @@
+1. https://www.tensorflow.org/tutorials/keras/classification
+2. https://www.tensorflow.org/tutorials/images/cnn	
+3. https://www.tensorflow.org/tutorials/images/classification	
+4. https://www.tensorflow.org/tutorials/keras/regression#regression_with_a_deep_neural_network_dnn	

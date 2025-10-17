@@ -1,0 +1,762 @@
+![](./images/intro/1.png)
+# Introduction to TensorFlow
+
+## What is TensorFlow?
+
+TensorFlow is an **open-source machine learning and deep learning framework** developed by **Google Brain Team**. It provides tools to **build, train, and deploy machine learning models** easily on various platforms (CPU, GPU, TPU, mobile, web).
+It supports **neural networks, numerical computations, and dataflow graphs**, making it a powerful framework for AI development.
+
+---
+
+## Key Facts About TensorFlow
+
+| Feature                   | Description                                                                               |
+| ------------------------- | ----------------------------------------------------------------------------------------- |
+| **Developer**             | Google Brain Team (open-sourced in 2015)                                                  |
+| **Language**              | Core in C++, APIs mainly in Python (also supports C++, JavaScript, Swift, Go, Java, etc.) |
+| **Type**                  | Machine learning and numerical computation library                                        |
+| **Architecture**          | Dataflow graph-based computation                                                          |
+| **License**               | Apache 2.0 open-source license                                                            |
+| **Execution Modes**       | Eager Execution (dynamic) and Graph Execution (static)                                    |
+| **Hardware Acceleration** | Supports CPU, GPU, TPU                                                                    |
+| **Integration**           | Works with Keras, TFLite, TF.js, TensorBoard, TF-Serving                                  |
+
+---
+
+## Why TensorFlow Is Used
+
+TensorFlow provides:
+
+1. **Automatic Differentiation (Autograd):** Automatic gradient computation for optimization.
+2. **Model Deployment Flexibility:** Deploy models on cloud, mobile, embedded systems, and browsers.
+3. **Production-Ready:** TensorFlow Extended (TFX) enables ML pipelines at scale.
+4. **Visualization Tools:** TensorBoard provides graphical insight into model structure, loss curves, and performance.
+5. **Rich Ecosystem:** Pre-trained models, datasets, and easy integration with libraries like NumPy and Pandas.
+6. **Multi-Device Support:** Parallel training on multiple GPUs or TPUs.
+
+---
+
+## Core Components of TensorFlow
+
+### 1. **Tensors**
+
+* **Definition:** Multidimensional arrays used as the fundamental data structure in TensorFlow.
+* Example:
+
+  ```
+  TensorShape([2, 3])
+  Tensor([[1, 2, 3],
+          [4, 5, 6]])
+  ```
+* Tensors can represent scalars (0D), vectors (1D), matrices (2D), or higher-order arrays (nD).
+
+---
+
+### 2. **Computation Graphs**
+
+* TensorFlow represents computation as a **graph**, where:
+
+  * **Nodes** = operations (e.g., addition, multiplication)
+  * **Edges** = tensors (data flowing between operations)
+
+Example flow:
+
+```
+x → W → matmul → +b → ReLU → y_pred
+```
+
+---
+
+### 3. **Sessions (TF 1.x)**
+
+Older TensorFlow versions required creating a session to execute the computation graph:
+
+```python
+sess = tf.Session()
+result = sess.run(y_pred, feed_dict={x: input_data})
+```
+
+TensorFlow 2.x uses **Eager Execution**, removing the need for sessions:
+
+```python
+y_pred = model(x)
+```
+
+---
+
+## TensorFlow 2.x API Levels
+
+### **1. High-Level (Abstracted) API: `tf.keras`**
+
+* Simplified API for deep learning.
+* Lets you build and train models easily.
+* Example:
+
+  ```python
+  import tensorflow as tf
+
+  model = tf.keras.Sequential([
+      tf.keras.layers.Dense(64, activation='relu'),
+      tf.keras.layers.Dense(10)
+  ])
+
+  model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+  model.fit(train_data, train_labels, epochs=10)
+  ```
+
+### **2. Low-Level (Core) API: `tf.*`**
+
+* Provides full control over operations and gradients.
+* Example:
+
+  ```python
+  x = tf.constant([[1.0, 2.0], [3.0, 4.0]])
+  w = tf.Variable([[0.5], [1.0]])
+  y = tf.matmul(x, w)
+  print(y)
+  ```
+
+---
+
+## TensorFlow Ecosystem
+
+| Component                     | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| **TensorFlow Core**           | Base library for building ML models                          |
+| **Keras**                     | High-level API for quick model prototyping                   |
+| **TensorBoard**               | Visualization and debugging tool                             |
+| **TF Hub**                    | Repository of pre-trained models                             |
+| **TF Lite**                   | Run ML models on mobile and embedded devices                 |
+| **TF.js**                     | Run models directly in the browser                           |
+| **TFX (TensorFlow Extended)** | Production ML pipeline system                                |
+| **TF Data**                   | Efficient input pipeline for large datasets                  |
+| **TF Datasets (TFDS)**        | Ready-to-use standard datasets (MNIST, CIFAR-10, IMDB, etc.) |
+| **TF Serving**                | Deploy trained models as web services                        |
+
+---
+
+## Dataset Support
+
+TensorFlow supports **loading, transforming, batching, and shuffling datasets** through `tf.data` and `tensorflow_datasets (tfds)`.
+
+### Example – Loading Standard Datasets
+
+```python
+import tensorflow_datasets as tfds
+
+(ds_train, ds_test), ds_info = tfds.load(
+    'mnist',
+    split=['train', 'test'],
+    shuffle_files=True,
+    as_supervised=True,
+    with_info=True,
+)
+```
+
+---
+
+## Popular Datasets in TensorFlow
+
+### 1. **MNIST (Modified National Institute of Standards and Technology)**
+
+* Handwritten digit dataset (0–9)
+* 60,000 training + 10,000 testing images
+* Image shape: 28×28 grayscale
+
+```python
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+```
+
+---
+
+### 2. **CIFAR-10 / CIFAR-100**
+
+* CIFAR-10: 10 classes (airplane, car, bird, cat, etc.)
+* CIFAR-100: 100 classes
+* Each image is 32×32 RGB
+
+```python
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+```
+
+---
+
+### 3. **IMDB Dataset**
+
+* Sentiment analysis dataset with 50,000 movie reviews labeled as positive/negative.
+
+```python
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.imdb.load_data(num_words=10000)
+```
+
+---
+
+### 4. **Fashion-MNIST**
+
+* Replacement for MNIST with 10 clothing categories (shirt, trouser, bag, etc.)
+
+```python
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
+```
+
+---
+
+## TensorFlow Training Pipeline
+
+```
+[Data Loading] → [Preprocessing] → [Model Building] → [Training] → [Evaluation] → [Deployment]
+```
+
+1. **Data Loading:** via `tf.data` or `tfds`
+2. **Preprocessing:** normalize, augment images, pad text
+3. **Model Building:** Sequential or Functional API
+4. **Training:** `model.fit()`
+5. **Evaluation:** `model.evaluate()`
+6. **Deployment:** via TensorFlow Serving, TF Lite, or TF.js
+
+---
+
+## TensorBoard (Visualization Tool)
+
+Used to visualize:
+
+* Loss and accuracy graphs
+* Weight histograms
+* Computation graph structure
+
+Command:
+
+```bash
+tensorboard --logdir=logs/
+```
+
+---
+
+## TensorFlow Lite (TFLite)
+
+Used for deploying models on **mobile, IoT, and edge devices**.
+Process:
+
+1. Train model in TensorFlow.
+2. Convert it to `.tflite` format using:
+
+   ```python
+   converter = tf.lite.TFLiteConverter.from_saved_model('model_path')
+   tflite_model = converter.convert()
+   ```
+3. Deploy on Android, iOS, or microcontrollers.
+
+---
+
+## TensorFlow.js
+
+Run models **directly in the browser** using JavaScript:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+```
+
+Supports:
+
+* Real-time webcam predictions
+* On-device inference (no backend server needed)
+
+---
+
+## TensorFlow Extended (TFX)
+
+Used in **production ML pipelines** for:
+
+* Data validation
+* Model training
+* Model evaluation
+* Model deployment and monitoring
+
+---
+
+## TensorFlow Hardware Acceleration
+
+| Device | Supported Framework                              |
+| ------ | ------------------------------------------------ |
+| CPU    | Default execution                                |
+| GPU    | CUDA + cuDNN acceleration                        |
+| TPU    | Tensor Processing Units for large-scale training |
+
+---
+
+## TensorFlow Advantages
+
+* Cross-platform (desktop, mobile, edge, cloud)
+* AutoGraph converts Python code to graph mode automatically
+* Distributed training support
+* Huge community and documentation
+* Integration with cloud (Google Cloud AI Platform)
+
+---
+
+## TensorFlow Disadvantages
+
+* Slightly more complex syntax than PyTorch for beginners
+* Debugging static graphs (TF 1.x) was harder
+* Training large models may require more fine-tuning
+
+---
+
+## Example: CNN on CIFAR-10 Dataset
+
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+x_train, x_test = x_train / 255.0, x_test / 255.0
+
+model = models.Sequential([
+    layers.Conv2D(32, (3,3), activation='relu', input_shape=(32,32,3)),
+    layers.MaxPooling2D((2,2)),
+    layers.Conv2D(64, (3,3), activation='relu'),
+    layers.MaxPooling2D((2,2)),
+    layers.Flatten(),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(10)
+])
+
+model.compile(optimizer='adam',
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=10, validation_data=(x_test, y_test))
+```
+
+---
+
+## Summary
+
+| Category               | Description                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------- |
+| **Framework**          | TensorFlow                                                                      |
+| **Purpose**            | Build and deploy machine learning/deep learning models                          |
+| **Core Concepts**      | Tensors, Graphs, AutoDiff, Sessions (1.x), Eager Execution (2.x)                |
+| **APIs**               | Keras (high-level), Core TF (low-level)                                         |
+| **Ecosystem**          | TensorBoard, TFLite, TF.js, TF Hub, TFX                                         |
+| **Datasets**           | MNIST, Fashion-MNIST, CIFAR-10/100, IMDB, etc.                                  |
+| **Deployment Targets** | Cloud, Browser, Mobile, Edge                                                    |
+| **Use Cases**          | Image recognition, NLP, Time series, Recommendation systems, Speech recognition |
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+
+
+![](./images/intro/2.png)
+# What is Keras and How It Relates to TensorFlow
+
+## Definition of Keras
+
+**Keras** is a **high-level neural networks API** designed to make **deep learning fast, easy, and user-friendly**.
+It was initially developed by **François Chollet** in 2015 as a standalone library that could run on multiple backends (like TensorFlow, Theano, CNTK).
+
+From **TensorFlow 2.0 onward**, **Keras is fully integrated into TensorFlow** as its **official high-level API**, known as **`tf.keras`**.
+
+---
+
+## Key Characteristics of Keras
+
+Keras is **“an API designed for human beings, not machines.”**
+It emphasizes clarity, simplicity, and developer productivity.
+
+### Core Principles of Keras
+
+| Principle                      | Description                                                                       |
+| ------------------------------ | --------------------------------------------------------------------------------- |
+| **User-Centric Design**        | Designed for humans, not machines; readable, minimal, and intuitive.              |
+| **Consistency and Simplicity** | Offers consistent APIs and minimizes user actions for common workflows.           |
+| **Actionable Error Messages**  | Provides clear and helpful feedback when something goes wrong.                    |
+| **Excellent Documentation**    | High-quality tutorials, guides, and examples for developers and researchers.      |
+| **Modularity**                 | Models are made up of configurable building blocks (layers, optimizers, metrics). |
+| **Extensibility**              | Easy to write custom layers, losses, and models for research.                     |
+| **Compatibility**              | Works seamlessly with TensorFlow’s backend for training and deployment.           |
+
+---
+
+## Relationship Between TensorFlow and Keras
+
+| Aspect           | Description                                                                                                           |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Integration**  | Keras is part of TensorFlow as `tf.keras`. It uses TensorFlow’s backend engine for all computations.                  |
+| **Backend**      | TensorFlow executes the mathematical operations defined by Keras layers.                                              |
+| **Purpose**      | TensorFlow = engine, Keras = interface. You can think of TensorFlow as the “power” and Keras as the “steering wheel.” |
+| **Code Example** | You write your model in Keras (`tf.keras`), and TensorFlow handles the training and inference.                        |
+
+**Example Analogy:**
+
+* TensorFlow → the **engine and mechanics** of a car
+* Keras → the **dashboard and steering wheel** that make driving simple
+
+---
+
+## Architecture Overview
+
+```
+[User Code]
+     ↓
+  Keras API (tf.keras)
+     ↓
+  TensorFlow Core (Automatic Differentiation, GPU/TPU Support)
+     ↓
+  Hardware (CPU, GPU, TPU)
+```
+
+Keras acts as the **front-end interface**, while TensorFlow handles the **low-level numerical computations** and hardware acceleration.
+
+---
+
+## Advantages of Using Keras with TensorFlow
+
+1. **Ease of Use:** Simple functions for defining, training, and evaluating models.
+2. **Integration with TensorFlow Ecosystem:** Works with TensorBoard, TF Lite, TF.js, and TF Serving.
+3. **Automatic Differentiation:** Uses TensorFlow’s `autograd` system.
+4. **GPU/TPU Support:** Automatically benefits from TensorFlow’s acceleration features.
+5. **Scalability:** Compatible with distributed training and large datasets.
+6. **Experimentation Speed:** Fast prototyping with minimal code.
+
+---
+
+## Keras Model Types
+
+### 1. **Sequential API (Simplest Form)**
+
+Used for stacking layers linearly (one after another).
+
+```python
+from tensorflow import keras
+from tensorflow.keras import layers
+
+model = keras.Sequential([
+    layers.Dense(64, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+```
+
+---
+
+### 2. **Functional API**
+
+Used for complex architectures (multiple inputs/outputs, skip connections, etc.).
+
+```python
+from tensorflow import keras
+from tensorflow.keras import layers
+
+inputs = keras.Input(shape=(32,))
+x = layers.Dense(64, activation='relu')(inputs)
+outputs = layers.Dense(10, activation='softmax')(x)
+model = keras.Model(inputs, outputs)
+```
+
+---
+
+### 3. **Subclassing API**
+
+Gives full control over model behavior (useful for custom research).
+
+```python
+class MyModel(keras.Model):
+    def __init__(self):
+        super().__init__()
+        self.d1 = keras.layers.Dense(64, activation='relu')
+        self.d2 = keras.layers.Dense(10)
+
+    def call(self, x):
+        return self.d2(self.d1(x))
+```
+
+---
+
+## Keras Workflow
+
+```
+[Prepare Data] → [Build Model] → [Compile Model] → [Train Model] → [Evaluate Model] → [Predict]
+```
+
+Example:
+
+```python
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=10)
+model.evaluate(x_test, y_test)
+```
+
+---
+
+## Integration with TensorFlow Tools
+
+| Tool                   | Purpose                                    |
+| ---------------------- | ------------------------------------------ |
+| **TensorBoard**        | Visualize training metrics and graphs      |
+| **TF Lite**            | Convert models for mobile/embedded devices |
+| **TF Serving**         | Deploy models to production environments   |
+| **TF Datasets (TFDS)** | Preloaded standard datasets                |
+| **TF Hub**             | Use pre-trained models                     |
+
+Example:
+
+```python
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir="./logs")
+model.fit(x_train, y_train, epochs=10, callbacks=[tensorboard_callback])
+```
+
+---
+
+## Summary Table
+
+| Aspect                 | TensorFlow                     | Keras                                             |
+| ---------------------- | ------------------------------ | ------------------------------------------------- |
+| **Type**               | Machine learning framework     | High-level deep learning API                      |
+| **Level**              | Low-level (Core computations)  | High-level (Model building)                       |
+| **Primary Language**   | C++/Python                     | Python                                            |
+| **Ease of Use**        | Complex                        | Very simple                                       |
+| **Computation Graphs** | Explicit or Eager              | Abstracted                                        |
+| **Integration**        | Provides `tf.keras` module     | Uses TensorFlow backend                           |
+| **Deployment**         | TensorFlow Serving, Lite, JS   | Uses TensorFlow deployment stack                  |
+| **Ideal For**          | Researchers, system developers | Applied ML engineers, students, rapid prototyping |
+
+---
+
+## In Essence
+
+* **Keras = Interface**
+* **TensorFlow = Engine**
+
+Keras lets you **focus on the creative and logical part** of model design while TensorFlow takes care of **math, execution, and optimization** underneath.
+It blends **usability and power**, suitable for both **research and production**.
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+
+
+![](./images/intro/3.png)
+# TensorFlow Architecture
+
+TensorFlow is designed as a **layered and modular system**, where each layer provides different levels of abstraction — from **high-level APIs for model design** to **low-level operations for fine-grained control**.
+It can execute efficiently on **multiple hardware platforms** such as **CPU, GPU, and TPU**.
+
+---
+
+## Overall Architecture Diagram
+
+```
+                    ┌────────────────────────────────────┐
+                    │         High-Level API             │
+                    │          [tf.keras]                │
+                    │ Object-Oriented Deep Learning API  │
+                    └────────────────────────────────────┘
+                                      │
+                                      ▼
+         ┌────────────────────────────────────────────────────────────┐
+         │   Reusable Libraries for Common Model Components           │
+         │ [tf.layers] [tf.losses] [tf.metrics] [tf.optimizers] etc. │
+         └────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+             ┌──────────────────────────────────────────────┐
+             │        Low-Level TensorFlow Core API         │
+             │  [Tensors, Graphs, Operations, Variables]    │
+             │  Provides fine-grained control and flexibility│
+             └──────────────────────────────────────────────┘
+                                      │
+                                      ▼
+       ┌────────────────────────────────────────────────────────────────┐
+       │     Hardware Abstraction Layer                                 │
+       │     [CPU] [GPU] [TPU]  —  Run TensorFlow on any device         │
+       │  (via TensorFlow runtime & XLA compiler for optimization)      │
+       └────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 1. **High-Level Object-Oriented API — `tf.keras`**
+
+### Purpose:
+
+To make deep learning **easy, fast, and human-friendly** using an **object-oriented approach**.
+
+### Description:
+
+* Provides **high-level abstractions** for creating, training, and evaluating neural networks.
+* Integrates directly with TensorFlow core for execution and hardware acceleration.
+* Supports **Sequential**, **Functional**, and **Subclassing** model types.
+
+### Example:
+
+```python
+import tensorflow as tf
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(10)
+])
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+```
+
+### Key Features:
+
+* Simplified model building.
+* Predefined layers, losses, optimizers, and metrics.
+* Built-in dataset loading and callbacks (TensorBoard, checkpoints).
+* Great for beginners and production-level prototyping.
+
+---
+
+## 2. **Reusable Libraries for Common Model Components**
+
+TensorFlow provides multiple reusable libraries that sit **between Keras and the Core API**, offering modular building blocks for ML models.
+
+| Library                               | Purpose                                    | Example Usage                                                     |
+| ------------------------------------- | ------------------------------------------ | ----------------------------------------------------------------- |
+| **`tf.layers`**                       | Predefined neural network layers           | `tf.keras.layers.Dense`, `Conv2D`, `Dropout`                      |
+| **`tf.losses`**                       | Common loss functions for training         | `tf.keras.losses.MeanSquaredError()`, `CategoricalCrossentropy()` |
+| **`tf.metrics`**                      | Functions to evaluate model performance    | `tf.keras.metrics.Accuracy()`, `Precision()`, `Recall()`          |
+| **`tf.optimizers`**                   | Algorithms for minimizing loss             | `tf.keras.optimizers.Adam()`, `SGD()`                             |
+| **`tf.data`**                         | Efficient data input pipeline creation     | `tf.data.Dataset.from_tensor_slices()`                            |
+| **`tf.image`, `tf.audio`, `tf.text`** | Specialized modules for data preprocessing | Augmentation, tokenization, normalization                         |
+
+These libraries are **modular**, meaning they can be **combined flexibly** to construct and train custom ML architectures.
+
+---
+
+## 3. **Low-Level TensorFlow Core API**
+
+### Purpose:
+
+Gives **complete control** over the computational graph, gradients, and execution — used mainly by **researchers** or **developers building new algorithms**.
+
+### Core Concepts:
+
+| Concept              | Description                                                           |
+| -------------------- | --------------------------------------------------------------------- |
+| **Tensors**          | Multidimensional arrays (basic data structure).                       |
+| **Operations (Ops)** | Nodes in a computation graph that perform math (e.g., add, matmul).   |
+| **Graphs**           | Directed Acyclic Graphs (DAGs) connecting operations and tensors.     |
+| **Variables**        | Trainable parameters in models.                                       |
+| **Eager Execution**  | Immediate execution (like normal Python), easier debugging.           |
+| **AutoGraph**        | Converts Python code into optimized computation graphs automatically. |
+
+### Example:
+
+```python
+x = tf.constant([[2.0, 3.0]])
+w = tf.Variable([[1.0], [2.0]])
+y = tf.matmul(x, w) + 1.0
+print(y)  # Executes immediately under eager mode
+```
+
+**Purpose of Low-Level API:**
+
+* Create **custom training loops**, loss functions, and optimizers.
+* Fine-tune performance and device placement.
+* Ideal for **researchers and developers** who need full flexibility.
+
+---
+
+## 4. **Hardware Abstraction Layer**
+
+TensorFlow’s runtime engine allows the same code to run **seamlessly** on **CPU, GPU, or TPU**.
+
+| Hardware                           | Description                                                                         | Example Use                                                 |
+| ---------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **CPU (Central Processing Unit)**  | Default processor; used for small-scale training or inference.                      | For basic ML tasks or debugging.                            |
+| **GPU (Graphics Processing Unit)** | Parallel processor optimized for matrix operations; speeds up training drastically. | Deep neural networks, CNNs, RNNs.                           |
+| **TPU (Tensor Processing Unit)**   | Google’s custom ASIC optimized for TensorFlow computations.                         | Large-scale distributed training (e.g., Google Cloud TPUs). |
+
+TensorFlow automatically detects and utilizes available hardware:
+
+```python
+print(tf.config.list_physical_devices('GPU'))
+```
+
+### Optimization Components:
+
+* **XLA (Accelerated Linear Algebra):** Compiles TensorFlow graphs for faster execution.
+* **TensorFlow Runtime (TFRT):** Manages device communication and memory efficiently.
+* **Automatic Device Placement:** Moves operations to the most efficient hardware automatically.
+
+---
+
+## Execution Flow in TensorFlow
+
+```
+Step 1 → You write high-level model code (tf.keras)
+Step 2 → Keras uses tf.layers, tf.losses, tf.metrics to define model structure
+Step 3 → These are translated into TensorFlow Core Ops (low-level API)
+Step 4 → The Core API executes optimized operations on available hardware (CPU/GPU/TPU)
+```
+
+**Flow Diagram:**
+
+```
+[Your Code: tf.keras / tf.layers]
+               ↓
+[TensorFlow Core API]
+               ↓
+[XLA Compiler + TF Runtime]
+               ↓
+[CPU] [GPU] [TPU]
+```
+
+---
+
+## Summary Table
+
+| Layer                  | Description                                               | Example Components                                |
+| ---------------------- | --------------------------------------------------------- | ------------------------------------------------- |
+| **High-Level API**     | Simplified model design and training                      | `tf.keras`, `Sequential`, `Model.fit()`           |
+| **Reusable Libraries** | Modular building blocks for layers, losses, metrics, data | `tf.layers`, `tf.losses`, `tf.metrics`, `tf.data` |
+| **Low-Level API**      | Fine-grained control of ops, tensors, and gradients       | `tf.Variable`, `tf.function`, `tf.GradientTape`   |
+| **Hardware Layer**     | Cross-platform execution (CPU, GPU, TPU)                  | TensorFlow runtime, XLA compiler                  |
+
+---
+
+## In Summary
+
+* **`tf.keras`** → User-friendly high-level API for building and training models.
+* **`tf.layers`, `tf.losses`, `tf.metrics`, etc.** → Reusable libraries for standard ML building blocks.
+* **Low-level TF API** → Complete control over computations and optimizations.
+* **Hardware Layer (CPU/GPU/TPU)** → Enables TensorFlow to run efficiently on any platform.
+
+Together, they form a **powerful, scalable, and flexible ML ecosystem**, suitable for both **rapid prototyping** and **large-scale production deployment**.
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
