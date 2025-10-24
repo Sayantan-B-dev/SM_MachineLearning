@@ -1,0 +1,8 @@
+1. https://scikit-learn.org/stable/modules/tree.html
+2. https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+3. https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html
+4. https://xgboost.readthedocs.io/en/stable/tutorials/model.html#introduction-to-boosted-trees
+5. https://xgboost.readthedocs.io/en/stable/get_started.html#python
+6. https://www.tensorflow.org/decision_forests/tutorials/beginner_colab#introduction
+
+ 
